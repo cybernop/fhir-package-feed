@@ -1,0 +1,30 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom"
+    xmlns:content="http://purl.org/rss/1.0/modules/content/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:fhir="http://hl7.org/fhir/feed" version="2.0">
+    <channel>
+        <title>{{ title }}</title>
+        <description>{{ description }}</description>
+        <link>{{ link }}</link>
+        <generator>HL7, Inc FHIR Publication tooling</generator>
+        <lastBuildDate>{{ last_build_date|datetime_format }}</lastBuildDate>
+        <atom:link href="{{ link }}" rel="self" type="application/rss+xml" />
+        <pubDate>{{ pub_date|datetime_format }}</pubDate>
+        <language>{{ language }}</language>
+        <ttl>600</ttl>
+        {% for item in items %}
+        <item>
+            <title>{{ item.title }}</title>
+            <description>{{ item.description }} (built {{ item.built|datetime_format }})</description>
+            <link>{{ item.link }}</link>
+            <guid isPermaLink="true">{{ item.link }}</guid>
+            <dc:creator>{{ item.creator }}</dc:creator>
+            <fhir:version>{{ item.fhir_version }}</fhir:version>
+            <fhir:kind>{{ item.fhir_kind }}</fhir:kind>
+            <pubDate>{{ item.pub_date|datetime_format }}</pubDate>
+            {% if item.fhir_details %}
+            <fhir:details>{{ item.fhir_details }}</fhir:details>
+            {% endif %}
+        </item>
+        {% endfor %}
+    </channel>
+</rss>
